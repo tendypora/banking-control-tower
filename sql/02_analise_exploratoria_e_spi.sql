@@ -19,7 +19,7 @@
 -- EXEMPLO 01: SELECT — o que existe no catálogo?
 -- ============================================
 -- Conceito: SELECT, FROM, LIMIT, COUNT(*)
--- Pergunta de negócio: que projetos a Vértice tem, e onde cada um vive?
+-- Pergunta de negócio: que projetos o Meridian Bank tem, e onde cada um vive?
 -- Conexão: antes de calcular qualquer coisa, olhe o dado. Sempre.
 
 -- 1. A primeira olhada no cadastro de projetos do PMO.
@@ -33,7 +33,7 @@ SELECT *
 FROM lakehouse_meridian.bronze.projetos
 LIMIT 10;
 
--- 2. Quantos projetos a Vértice tem?
+-- 2. Quantos projetos o Meridian Bank tem?
 --    COUNT(*)   conta as linhas
 --    AS nome    dá um nome para a coluna do resultado
 --    Deve aparecer: 60.
@@ -44,7 +44,7 @@ FROM lakehouse_meridian.bronze.projetos;
 -- EXEMPLO 02: ORDER BY, CAST e DISTINCT — os maiores contratos
 -- ============================================
 -- Conceito: ORDER BY, CAST, DISTINCT
--- Pergunta de negócio: quais são os maiores contratos da Vértice?
+-- Pergunta de negócio: quais são os maiores contratos do Meridian Bank?
 -- Conexão: na bronze tudo é texto. Sem CAST, o Databricks ordena como palavra.
 
 -- 1. Os 5 maiores contratos... ou não.
@@ -70,7 +70,7 @@ LIMIT 5;
 --    DISTINCT   tira as repetições: cada valor aparece uma vez só
 --    Deve aparecer: 8 jeitos de escrever 3 ferramentas: 'Excel', 'excel', 'Planilha',
 --    'ClickUp', 'Clickup', 'MS Project', 'Project', 'msproject'.
---    É o retrato do problema da Vértice: cada um registra do seu jeito.
+--    É o retrato do problema do Meridian Bank: cada um registra do seu jeito.
 SELECT DISTINCT ferramenta
 FROM lakehouse_meridian.bronze.projetos
 ORDER BY ferramenta;
@@ -116,7 +116,7 @@ WHERE valor LIKE '%,%';
 SELECT projeto_id, cliente, nome_projeto
 FROM lakehouse_meridian.bronze.projetos
 WHERE status = 'em_andamento'
-  AND segmento = 'varejo';
+  AND segmento = 'pagamentos_pix';
 
 -- 5. Os projetos que vivem no Excel. Lembra que a ferramenta está escrita de 8 jeitos (exemplo 02)?
 --    IN (...)   "é um destes valores": vale como três igualdades ligadas por OR
@@ -141,10 +141,10 @@ FROM lakehouse_meridian.bronze.entregas_fornecedor
 WHERE lower(fornecedor) LIKE '%forge%';
 
 -- ============================================
--- EXEMPLO 04: GROUP BY — para onde vai o dinheiro da Vértice?
+-- EXEMPLO 04: GROUP BY — para onde vai o dinheiro do Meridian Bank?
 -- ============================================
 -- Conceito: GROUP BY, SUM, replace
--- Pergunta de negócio: quanto a Vértice gasta, por categoria de custo?
+-- Pergunta de negócio: quanto o Meridian Bank gasta, por categoria de custo?
 -- Conexão: é a pergunta 2 do dono ("quanto custa?") começando a ter resposta.
 --
 -- A tabela é a bronze.custos: um lançamento de custo por linha (23.640 linhas).
@@ -176,7 +176,7 @@ ORDER BY custo_milhoes DESC;
 -- Conceito: UNION ALL, VIEW, CASE, JOIN, WITH
 -- Pergunta de negócio: QUAIS PROJETOS ESTÃO MAIS ATRASADOS?
 --
--- É a primeira pergunta do dono, e ninguém na Vértice sabia responder: 20 projetos estão
+-- É a primeira pergunta do dono, e ninguém no Meridian Bank sabia responder: 20 projetos estão
 -- no Excel, 25 no ClickUp e 15 no MS Project. Cada ferramenta guarda a mesma informação
 -- (a tarefa, quando devia começar e terminar, quanto está pronta, quantas horas) de um jeito.
 --

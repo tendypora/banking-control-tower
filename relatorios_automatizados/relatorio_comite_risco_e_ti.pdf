@@ -1,0 +1,71 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Type /Pages /Kids [5 0 R] /Count 1 >>
+endobj
+4 0 obj
+<< /Length 3037 >>
+stream
+BT /F2 15 Tf 56 786.0 Td (Meridian Bank S.A. - Relatorio Executivo de TI, Risco de Credito \(PDD\) e) Tj ET
+BT /F2 15 Tf 56 765.3 Td (Pix) Tj ET
+BT /F2 11.5 Tf 56 744.6 Td (Data-base: 16/10/2026 | Automacao em Python para Comite de Risco \(CRO\) e) Tj ET
+BT /F2 11.5 Tf 56 728.7 Td (Tecnologia \(CTO\)) Tj ET
+BT /F1 10 Tf 56 712.9 Td () Tj ET
+BT /F2 11.5 Tf 56 699.1 Td (1. INDICADORES CONSOLIDADOS DO PORTFOLIO BANCARIO) Tj ET
+BT /F1 10 Tf 56 683.2 Td (Programas estrategicos em andamento: 41 \(Excel, ClickUp e MS Project\).) Tj ET
+BT /F1 10 Tf 56 669.4 Td (Programas CRITICOS \(SPI ou CPI < 0,80\): 7 | Em ATENCAO \(< 0,90\): 10.) Tj ET
+BT /F1 10 Tf 56 655.6 Td (Estouro orcamentario projetado em TI Bancaria \(EAC - Orcamento\): R$ 6.47 milhoes.) Tj ET
+BT /F1 10 Tf 56 641.8 Td (Provisao PDD total constituida nas carteiras ativas \(Res. CMN 4.966\): R$ 1,887.97 milhoes.) Tj ET
+BT /F1 10 Tf 56 628.0 Td (Programas 'Melancia' \(Farol Verde no Comite com SPI < 0,90\): 4 \(PRJ-012, PRJ-028, PRJ-034,) Tj ET
+BT /F1 10 Tf 56 614.2 Td (PRJ-042\).) Tj ET
+BT /F1 10 Tf 56 600.4 Td () Tj ET
+BT /F2 11.5 Tf 56 586.6 Td (2. TOP 10 PROGRAMAS CRITICOS E EXPOSICAO DE CREDITO / PDD) Tj ET
+BT /F1 10 Tf 56 570.7 Td (PRJ-016 \(SuperintendÍncia de PLD/FT & KYC\) | SPI: 0.63 | CPI: 0.92 | Over90: 7.2% | PDD: R$) Tj ET
+BT /F1 10 Tf 56 556.9 Td (33.0 mi \(Stage 2\)) Tj ET
+BT /F1 10 Tf 56 543.1 Td (PRJ-030 \(Diretoria de CrÈdito Imobili·rio\) | SPI: 0.69 | CPI: 0.90 | Over90: 3.0% | PDD: R$) Tj ET
+BT /F1 10 Tf 56 529.3 Td (31.0 mi \(Stage 1\)) Tj ET
+BT /F1 10 Tf 56 515.5 Td (PRJ-039 \(Diretoria de Risco de CrÈdito \(CRO\)\) | SPI: 0.75 | CPI: 0.95 | Over90: 3.1% | PDD:) Tj ET
+BT /F1 10 Tf 56 501.7 Td (R$ 29.6 mi \(Stage 1\)) Tj ET
+BT /F1 10 Tf 56 487.9 Td (PRJ-009 \(Diretoria de SeguranÁa CibernÈtica\) | SPI: 0.94 | CPI: 0.77 | Over90: 10.4% | PDD:) Tj ET
+BT /F1 10 Tf 56 474.1 Td (R$ 26.5 mi \(Stage 3\)) Tj ET
+BT /F1 10 Tf 56 460.3 Td (PRJ-011 \(Diretoria de CrÈdito PF & CDC\) | SPI: 0.77 | CPI: 0.92 | Over90: 5.9% | PDD: R$) Tj ET
+BT /F1 10 Tf 56 446.5 Td (40.5 mi \(Stage 2\)) Tj ET
+BT /F1 10 Tf 56 432.7 Td (PRJ-027 \(Diretoria de Atacado & Corporate PJ\) | SPI: 0.95 | CPI: 0.79 | Over90: 4.0% | PDD:) Tj ET
+BT /F1 10 Tf 56 418.9 Td (R$ 33.7 mi \(Stage 2\)) Tj ET
+BT /F1 10 Tf 56 405.1 Td (PRJ-054 \(Diretoria de CrÈdito Imobili·rio\) | SPI: 0.80 | CPI: 0.93 | Over90: 3.2% | PDD: R$) Tj ET
+BT /F1 10 Tf 56 391.3 Td (71.8 mi \(Stage 1\)) Tj ET
+BT /F1 10 Tf 56 377.5 Td (PRJ-005 \(Diretoria de SeguranÁa CibernÈtica\) | SPI: 1.02 | CPI: 0.81 | Over90: 10.2% | PDD:) Tj ET
+BT /F1 10 Tf 56 363.7 Td (R$ 54.4 mi \(Stage 3\)) Tj ET
+BT /F1 10 Tf 56 349.9 Td (PRJ-060 \(SuperintendÍncia de PrevenÁ„o a Fraudes\) | SPI: 0.84 | CPI: 0.96 | Over90: 7.0% |) Tj ET
+BT /F1 10 Tf 56 336.1 Td (PDD: R$ 27.3 mi \(Stage 2\)) Tj ET
+BT /F1 10 Tf 56 322.3 Td (PRJ-001 \(SuperintendÍncia de Open Finance\) | SPI: 0.84 | CPI: 0.98 | Over90: 3.1% | PDD: R$) Tj ET
+BT /F1 10 Tf 56 308.5 Td (57.8 mi \(Stage 1\)) Tj ET
+BT /F1 8 Tf 499 30 Td (p·g. 1/1) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Type /Catalog /Pages 3 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000112 00000 n 
+0000000214 00000 n 
+0000000271 00000 n 
+0000003360 00000 n 
+0000003496 00000 n 
+trailer
+<< /Size 7 /Root 6 0 R >>
+startxref
+3545
+%%EOF

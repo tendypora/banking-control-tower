@@ -2,7 +2,7 @@
 -- EXEMPLO 06: QUANTO CUSTA? O estouro e o farol do gerente
 -- ============================================
 -- Conceito: juntar várias consultas com WITH e fazer conta de KPI
--- Pergunta de negócio: SE NADA MUDAR, QUANTO A VÉRTICE VAI PERDER? E O FAROL MOSTRA ISSO?
+-- Pergunta de negócio: SE NADA MUDAR, QUAL SERÁ O ESTOURO DE ORÇAMENTO DO MERIDIAN BANK? E O FAROL MOSTRA ISSO?
 -- Usa o rascunho do exemplo 05 (bronze.rascunho_tarefas): rode o 05 antes.
 --
 -- As contas (todas sobre o orçamento de custo do projeto):

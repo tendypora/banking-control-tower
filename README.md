@@ -159,6 +159,13 @@ Este projeto utiliza o catálogo exclusivo **`lakehouse_meridian`**, podendo ser
 3. Execute [`sql/06_analise_risco_credito_e_fraude_pix.sql`](sql/06_analise_risco_credito_e_fraude_pix.sql) para analisar a **Provisão PDD por Estágio (Resolução CMN 4.966)**, a **Inadimplência Over 90** e a correlação entre atrasos de engenharia (`SPI`) e **Perdas por Fraude no Pix / Acionamentos de MED BACEN**.
 4. Execute [`sql/99_validacao_data_quality.sql`](sql/99_validacao_data_quality.sql) para verificar que todos os **20 testes de qualidade** retornam `ok`.
 
+### 3. Automação Local em Python (Relatórios Executivos Bancários `.xlsx` e `.pdf`)
+Para rodar localmente o pipeline de automação em Python que consolida os cronogramas das 3 ferramentas com a **Carteira de Crédito / PDD (Resolução CMN 4.966)** e o **Monitoramento de Fraude Pix (MED BACEN)**, gerando automaticamente a planilha executiva e o relatório em PDF para o Comitê de Risco (`CRO`) e Tecnologia (`CTO`) em `relatorios_automatizados/`:
+
+```bash
+python scripts/automacao_relatorio_executivo.py
+```
+
 ---
 
 ## 🛠️ Stack Tecnológica

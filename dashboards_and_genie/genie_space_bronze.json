@@ -5,25 +5,25 @@
       {
         "id": "a1000000000000000000000000000001",
         "question": [
-          "Quais projetos estão atrasados, e de quais clientes?"
+          "Quais programas bancários estão atrasados e de quais superintendências?"
         ]
       },
       {
         "id": "a1000000000000000000000000000002",
         "question": [
-          "Quanto esse atraso vai me custar?"
+          "Qual o estouro orçamentário previsto e a provisão PDD por modalidade de crédito?"
         ]
       },
       {
         "id": "a1000000000000000000000000000003",
         "question": [
-          "Tenho gente parada enquanto outro projeto pede gente?"
+          "Como a falta de SRE no motor Pix impacta as perdas por fraude e os acionamentos de MED BACEN?"
         ]
       },
       {
         "id": "a1000000000000000000000000000004",
         "question": [
-          "O que vai dar errado no próximo mês, e o que eu faço agora?"
+          "Quais carteiras estão no Stage 3 da Resolução CMN 4.966 e quais programas vão estourar em 30 dias?"
         ]
       }
     ]
@@ -32,6 +32,9 @@
     "tables": [
       {
         "identifier": "lakehouse_meridian.bronze.apontamentos"
+      },
+      {
+        "identifier": "lakehouse_meridian.bronze.carteira_credito_pdd"
       },
       {
         "identifier": "lakehouse_meridian.bronze.clickup_tarefas"
@@ -44,6 +47,9 @@
       },
       {
         "identifier": "lakehouse_meridian.bronze.excel_tarefas"
+      },
+      {
+        "identifier": "lakehouse_meridian.bronze.monitoramento_fraude_pix"
       },
       {
         "identifier": "lakehouse_meridian.bronze.msproject_tarefas"
