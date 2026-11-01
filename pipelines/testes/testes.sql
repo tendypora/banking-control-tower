@@ -47,6 +47,15 @@ WITH testes AS (
   SELECT 10, 'custo acumulado de hoje = soma dos lançamentos',
          (SELECT SUM(ac) FROM lakehouse_meridian.gold.fato_projeto_semana WHERE semana = DATE'2026-10-16')
        = (SELECT SUM(valor) FROM lakehouse_meridian.silver.custos WHERE data <= DATE'2026-10-16')
+  UNION ALL
+  SELECT 11, 'carteira de crédito e PDD (CMN 4.966) íntegra na silver (720 registros)',
+         (SELECT COUNT(*) FROM lakehouse_meridian.silver.carteira_credito_pdd) = 720
+  UNION ALL
+  SELECT 12, 'telemetria antifraude Pix / MED BACEN íntegra na silver (810 registros)',
+         (SELECT COUNT(*) FROM lakehouse_meridian.silver.monitoramento_fraude_pix) = 810
+  UNION ALL
+  SELECT 13, 'visão consolidada de risco de crédito e operacional na gold (60 programas)',
+         (SELECT COUNT(*) FROM lakehouse_meridian.gold.risco_credito_e_operacional) = 60
 )
 SELECT n, teste,
        CASE WHEN passou THEN 'ok' ELSE raise_error(concat('Teste ', n, ' falhou: ', teste)) END AS status

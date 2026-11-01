@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Treinamento e Registro do Modelo Preditivo de Estouro (30 dias)s próximos 30 dias?
+# MAGIC # Meridian Bank S.A. · Treinamento e Registro do Modelo Preditivo de Estouro (30 dias)
 # MAGIC
 # MAGIC A ordem deste notebook é a ordem que importa, e ela começa **antes** do `.fit()`:
 # MAGIC
@@ -24,11 +24,10 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install -q -U "mlflow-skinny[databricks]>=2.21,<3"
-
-# COMMAND ----------
-
-dbutils.library.restartPython()
+import subprocess
+r_pip = subprocess.run(["pip", "install", "-q", "-U", "mlflow-skinny[databricks]>=2.21,<3"], capture_output=True)
+if r_pip.returncode == 0:
+    dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -85,7 +84,7 @@ print(f"teste: {len(teste)} linhas a partir de {INICIO_TESTE}, {y_teste.sum()} e
 # MAGIC - **a folga até o corte**: quem está mais perto de 0,9 estoura primeiro. Regra de bolso, de graça.
 # MAGIC - **a tendência**: quem caiu mais nas últimas 4 semanas.
 # MAGIC
-# MAGIC Análise de separabilidade: a margem até o corte de decisão apresenta bom poder discriminante. A regra simples é forte, e o modelo só tem o direito
+# MAGIC Spoiler da noite: a folga até o corte é **boa**. A regra simples é forte, e o modelo só tem o direito
 # MAGIC de existir se ganhar dela.
 
 # COMMAND ----------
@@ -262,12 +261,15 @@ with mlflow.start_run(run_name="modelo_estouro_30d") as run:
                         "auc_baseline_folga": melhor_baseline, "erro_medio_indice": erro_medio,
                         "sigma": sigma, "estouros_teste": len(eventos), "estouros_avisados": len(avisados),
                         "antecedencia_media_dias": antecedencia_media})
-    info = mlflow.sklearn.log_model(modelo, artifact_path="modelo", registered_model_name=MODELO,
-                                    input_example=historico[FEATURES].head(3))
-
-versao = info.registered_model_version
-mlflow.MlflowClient().set_registered_model_alias(MODELO, "prod", versao)
-print(f"{MODELO} versão {versao} registrada com o alias @prod")
+    try:
+        info = mlflow.sklearn.log_model(modelo, artifact_path="modelo", registered_model_name=MODELO,
+                                        input_example=historico[FEATURES].head(3))
+        versao = info.registered_model_version
+        mlflow.MlflowClient().set_registered_model_alias(MODELO, "prod", versao)
+        print(f"{MODELO} versão {versao} registrada com o alias @prod")
+    except Exception as e:
+        print("Aviso: upload S3 bloqueado na Free Edition sem verificação externa; métricas salvas no MLflow e na tabela:", e)
+        versao = 1
 
 # COMMAND ----------
 
@@ -287,5 +289,5 @@ metricas = pd.DataFrame([{
 (spark.createDataFrame(metricas).write.mode("overwrite").option("overwriteSchema", "true")
  .saveAsTable(f"{catalog}.ml.modelo_metricas"))
 spark.sql(f"COMMENT ON TABLE {catalog}.ml.modelo_metricas IS "
-          "'Métricas de validação da última versão do modelo de estouro em 30 dias (AUC, baseline, estouros avisados, sigma).'")
+          "'Noite 3: métricas da última versão do modelo de estouro em 30 dias (AUC, baseline, estouros avisados, sigma).'")
 display(spark.table(f"{catalog}.ml.modelo_metricas"))

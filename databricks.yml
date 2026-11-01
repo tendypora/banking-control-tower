@@ -5,6 +5,12 @@
 bundle:
   name: meridian_bank
 
+sync:
+  exclude:
+    - app/**
+    - relatorios_automatizados/**
+    - docs/**
+
 include:
   - resources/*.yml
 
@@ -14,7 +20,7 @@ variables:
     default: lakehouse_meridian
   warehouse_id:
     description: SQL Warehouse serverless responsável pelas tarefas SQL e dashboards
-    default: 666be37e3fededf2
+    default: bf5b66011616730e
 
   s3_endpoint:
     description: Endpoint compatível com S3 do Object Storage corporativo

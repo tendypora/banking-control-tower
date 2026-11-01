@@ -3,10 +3,10 @@
 resources:
   genie_spaces:
     genie_farol:
-      title: Vértice · Inteligência Executiva de Portfólio
+      title: Meridian Bank · Inteligência Executiva de Portfólio e Risco
       description: >-
-        Agente analítico em linguagem natural sobre os 60 projetos da Meridian Bank S.A.:
-        monitoramento de SPI, CPI, EAC, estouro orçamentário, alocação de recursos (SRE/Engenharia)
-        e predição de risco em 30 dias.
+        Agente analítico em linguagem natural sobre os 60 programas de tecnologia e risco do Meridian Bank S.A.:
+        monitoramento de SPI, CPI, EAC, estouro orçamentário, alocação de recursos (SRE/Engenharia),
+        predição de risco em 30 dias, exposição de crédito/PDD (Resolução CMN 4.966) e antifraude Pix (MED BACEN).
       file_path: ../resources/farol.geniespace.json
       warehouse_id: ${var.warehouse_id}

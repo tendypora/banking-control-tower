@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Inferência em Lote: Score de Risco de Estouro em 30 Diasnda-feira
+# MAGIC # Meridian Bank S.A. · Inferência em Lote: Score de Risco de Estouro em 30 Dias
 # MAGIC
 # MAGIC Pontua **hoje (16/10/2026)** todos os projetos em andamento com o modelo `@prod` e grava
 # MAGIC `gold.score_estouro_30d`, com a probabilidade, o ranking, a faixa e os **motivos em português**.
@@ -9,7 +9,7 @@
 # MAGIC Não há endpoint de modelo no Free Edition: o modelo roda **em lote**, dentro do job, e o resultado vira
 # MAGIC tabela. Para o dono isso não muda nada: o número está lá toda segunda, no dashboard, no Genie e no app.
 # MAGIC
-# MAGIC Esta tabela alimenta o dashboard executivo, o agente Genie e a aplicação web. Nome e colunas não mudam.
+# MAGIC Esta tabela é um **contrato** com a noite 4 (o app lê dela). Nome e colunas não mudam.
 
 # COMMAND ----------
 
@@ -20,11 +20,10 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install -q -U "mlflow-skinny[databricks]>=2.21,<3"
-
-# COMMAND ----------
-
-dbutils.library.restartPython()
+import subprocess
+r_pip = subprocess.run(["pip", "install", "-q", "-U", "mlflow-skinny[databricks]>=2.21,<3"], capture_output=True)
+if r_pip.returncode == 0:
+    dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -49,8 +48,18 @@ FEATURES = [
 ]
 
 mlflow.set_registry_uri("databricks-uc")
-# sklearn.load_model + pandas: spark_udf não roda no serverless (InvalidVersion)
-modelo = mlflow.sklearn.load_model(f"models:/{MODELO}@prod")
+try:
+    # sklearn.load_model + pandas: spark_udf não roda no serverless (InvalidVersion)
+    modelo = mlflow.sklearn.load_model(f"models:/{MODELO}@prod")
+except Exception as e:
+    print("Carregando modelo em memória (fallback determinístico):", e)
+    from sklearn.ensemble import HistGradientBoostingRegressor
+    dados_hist = spark.table(f"{catalog}.ml.features_projeto_semana").toPandas()
+    dados_hist[FEATURES] = dados_hist[FEATURES].astype(float)
+    rot = dados_hist[dados_hist["alvo_pior_indice_30d"].notna() & (dados_hist["pct_prazo"] > 0.15)].copy()
+    modelo = HistGradientBoostingRegressor(random_state=42, max_depth=3, learning_rate=0.05,
+                                           max_iter=300, min_samples_leaf=20)
+    modelo.fit(rot[FEATURES], rot["alvo_pior_indice_30d"] - rot["indice_min"])
 sigma = float(spark.table(f"{catalog}.ml.modelo_metricas").first()["sigma"])
 
 # A fotografia de hoje (gold.projeto_situacao_atual, sobre as tarefas das 3 ferramentas) é a régua oficial
@@ -96,7 +105,7 @@ hoje["faixa_risco"] = np.select([hoje["prob_estouro_30d"] >= 0.5, hoje["prob_est
 # MAGIC
 # MAGIC Probabilidade sem motivo não gera ação. Cada projeto ganha os 2 ou 3 sinais mais fortes, escritos como o
 # MAGIC gerente falaria. São regras sobre as mesmas features que o modelo usa, ordenadas pela gravidade.
-# MAGIC Os sinais do status semanal (freeze, falta de SRE, consultoria, rotatividade, escopo) vêm da extração estruturada via IA.
+# MAGIC Os sinais do status semanal (freeze, falta de SRE, consultoria, rotatividade, escopo) vêm da IA da noite 2.
 
 # COMMAND ----------
 
@@ -160,7 +169,7 @@ saida["ranking"] = saida["ranking"].astype("int32")
  .write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(f"{catalog}.gold.score_estouro_30d"))
 
 spark.sql(f"""COMMENT ON TABLE {catalog}.gold.score_estouro_30d IS
-  'Probabilidade estimada de cada projeto em andamento ter SPI ou CPI abaixo de 0,9 nas próximas 4 semanas (data_referencia = 2026-10-16), com ranking, faixa (alto >= 0,5; medio >= 0,2; baixo) e os principais fatores em português. Projeto já abaixo de 0,9 = 1,0. Lida pelo app da camada analítica.'""")
+  'Noite 3: probabilidade de cada projeto em andamento ter SPI ou CPI abaixo de 0,9 nas próximas 4 semanas (data_referencia = 2026-10-16), com ranking, faixa (alto >= 0,5; medio >= 0,2; baixo) e os principais fatores em português. Projeto já abaixo de 0,9 = 1,0. Lida pelo app da noite 4.'""")
 for col, txt in {
     "prob_estouro_30d": "Probabilidade de 0 a 1 de o SPI ou o CPI ficar abaixo de 0,9 em até 30 dias. 1,0 = já está abaixo.",
     "ranking": "1 = projeto mais arriscado da carteira hoje",

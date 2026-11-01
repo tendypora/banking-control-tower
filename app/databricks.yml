@@ -50,13 +50,13 @@ targets:
   default:
     default: true
     workspace:
-      host: https://dbc-84cd5511-fa25.cloud.databricks.com
+      host: https://dbc-c79ed850-ded1.cloud.databricks.com
 
     variables:
-      sql_warehouse_id: 666be37e3fededf2
+      sql_warehouse_id: bf5b66011616730e
       # O identificador do Genie Space é resolvido dinamicamente no deploy da aplicação:
       # workspace. O scripts/subir-tudo.sh descobre pelo título e grava aqui.
-      genie_space_id: 01f1cb513eb91dd58208123de3d84ad4
-      genie_space_name: Farol · Diretoria
+      genie_space_id: 01f1d626b1d61a2a8bb52e58fdc7aaf9
+      genie_space_name: Meridian Bank · Inteligência Executiva de Portfólio e Risco
       postgres_branch: projects/farol-torre/branches/production
       postgres_database: projects/farol-torre/branches/production/databases/databricks-postgres
