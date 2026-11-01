@@ -1,0 +1,42 @@
+# Databricks Asset Bundle · Meridian Bank Control Tower
+# Infraestrutura como código (IaC) para orquestração de pipelines Lakeflow,
+# feature engineering, treinamento MLflow, Metric Views, AI/BI Dashboards e Genie Spaces.
+
+bundle:
+  name: meridian_bank
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Catálogo principal do Unity Catalog (Bronze, Silver, Gold e ML)
+    default: lakehouse_meridian
+  warehouse_id:
+    description: SQL Warehouse serverless responsável pelas tarefas SQL e dashboards
+    default: 666be37e3fededf2
+
+  s3_endpoint:
+    description: Endpoint compatível com S3 do Object Storage corporativo
+    default: https://xqdzgjrdcimcagvxzwuo.storage.supabase.co/storage/v1/s3
+  s3_regiao:
+    description: Região do Object Storage
+    default: us-east-1
+  s3_access_key_id:
+    description: Access Key ID (injetada via variable-overrides fora do controle de versão)
+  s3_secret_access_key:
+    description: Secret Access Key (injetada via variable-overrides fora do controle de versão)
+
+targets:
+  dev:
+    default: true
+    presets:
+      trigger_pause_status: PAUSED
+
+  prod:
+    mode: production
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: ${workspace.current_user.userName}
+        level: CAN_MANAGE

@@ -1,0 +1,101 @@
+# Job Orquestrador · Meridian Bank Control Tower
+# Executa o fluxo completo ponta a ponta:
+#   1. Ingestão de API externa (feriados) e Data Lake S3 -> Bronze
+#   2. Validação de integridade da camada Bronze
+#   3. Pipeline Declarativo Lakeflow (Silver + Gold com contratos EXPECT)
+#   4. Suíte de testes de qualidade de dados + Extração estruturada com IA (ai_extract)
+#   5. Engenharia de features, treinamento de modelo preditivo (MLflow/UC) e inferência em lote
+#   6. Publicação de Metric Views governadas no Unity Catalog
+
+resources:
+  jobs:
+    meridian_control_tower:
+      name: meridian_control_tower
+      description: Pipeline ponta a ponta da Torre de Controle da Meridian Bank S.A. (Ingestão, Arquitetura Medalhão, IA Generativa, Machine Learning e Métricas Governadas).
+
+      schedule:
+        quartz_cron_expression: "0 0 6 ? * MON"
+        timezone_id: America/Sao_Paulo
+
+      max_concurrent_runs: 1
+
+      environments:
+        - environment_key: padrao
+          spec:
+            environment_version: "6"
+
+      tasks:
+        - task_key: ingestao_feriados
+          environment_key: padrao
+          notebook_task:
+            notebook_path: ../pipelines/ingestao/01_ingestao_api.py
+
+        - task_key: ingestao_data_lake
+          environment_key: padrao
+          notebook_task:
+            notebook_path: ../pipelines/ingestao/02_ingestao_boto3.py
+            base_parameters:
+              S3_ENDPOINT: ${var.s3_endpoint}
+              AWS_DEFAULT_REGION: ${var.s3_regiao}
+              AWS_ACCESS_KEY_ID: ${var.s3_access_key_id}
+              AWS_SECRET_ACCESS_KEY: ${var.s3_secret_access_key}
+
+        - task_key: conferencia_bronze
+          depends_on:
+            - { task_key: ingestao_feriados }
+            - { task_key: ingestao_data_lake }
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../pipelines/conferencia/00-conferencia-bronze.sql
+
+        - task_key: medalhao
+          depends_on: [{ task_key: conferencia_bronze }]
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.meridian_medalhao.id}
+
+        - task_key: testes_de_qualidade
+          depends_on: [{ task_key: medalhao }]
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../pipelines/testes/testes.sql
+
+        - task_key: status_com_ia
+          depends_on: [{ task_key: medalhao }]
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../pipelines/ia/status_estruturado.sql
+
+        - task_key: ml_features
+          depends_on:
+            - { task_key: testes_de_qualidade }
+            - { task_key: status_com_ia }
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../pipelines/ml/01-features.sql
+
+        - task_key: ml_modelo
+          depends_on: [{ task_key: ml_features }]
+          notebook_task:
+            notebook_path: ../pipelines/ml/02-modelo.py
+            base_parameters:
+              catalog: ${var.catalog}
+
+        - task_key: ml_score
+          depends_on: [{ task_key: ml_modelo }]
+          notebook_task:
+            notebook_path: ../pipelines/ml/03-score.py
+            base_parameters:
+              catalog: ${var.catalog}
+
+        - task_key: metricas_governadas
+          depends_on:
+            - { task_key: testes_de_qualidade }
+            - { task_key: status_com_ia }
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../pipelines/metricas/metricas.sql

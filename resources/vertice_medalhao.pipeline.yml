@@ -1,0 +1,18 @@
+# Pipeline Declarativo Lakeflow · Arquitetura Medalhão (Silver & Gold)
+# Unifica os cronogramas heterogêneos (Excel, ClickUp, MS Project) e aplica
+# contratos de qualidade de dados (EXPECT) em tempo de execução.
+
+resources:
+  pipelines:
+    meridian_medalhao:
+      name: meridian_medalhao
+      catalog: ${var.catalog}
+      schema: silver
+      serverless: true
+      photon: true
+      channel: CURRENT
+      libraries:
+        - glob:
+            include: ../pipelines/silver/**
+        - glob:
+            include: ../pipelines/gold/**

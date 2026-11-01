@@ -1,0 +1,62 @@
+bundle:
+  name: farol-torre
+
+include:
+  - resources/*.yml
+
+variables:
+  sql_warehouse_id:
+    description: SQL Warehouse ID
+  genie_space_id:
+    description: Default Genie Space ID
+  genie_space_name:
+    description: Genie Space display name
+  postgres_branch:
+    description: Full Lakebase Postgres branch resource name. Obtain by running `databricks postgres list-branches {project-name}`, select the desired item from the output array and use its .name value. Requires the project resource name.
+  postgres_database:
+    description: Full Lakebase Postgres database resource name. Obtain by running `databricks postgres list-databases {branch-name}`, select the desired item from the output array and use its .name value. Requires the branch resource name.
+
+resources:
+  apps:
+    app:
+      name: "farol-torre"
+      description: "Projeto Farol da Meridian Bank S.A.: projetos em risco, chance de estouro em 30 dias, realocação de pessoas e aprovação do dono"
+      source_code_path: ./
+
+      # Start the app automatically on deploy.
+      lifecycle:
+        started: true
+      user_api_scopes:
+        - dashboards.genie
+
+      # The resources which this app has access to.
+      resources:
+        - name: sql-warehouse
+          sql_warehouse:
+            id: ${var.sql_warehouse_id}
+            permission: CAN_USE
+        - name: genie-space
+          genie_space:
+            name: ${var.genie_space_name}
+            space_id: ${var.genie_space_id}
+            permission: CAN_RUN
+        - name: postgres
+          postgres:
+            branch: ${var.postgres_branch}
+            database: ${var.postgres_database}
+            permission: CAN_CONNECT_AND_CREATE
+
+targets:
+  default:
+    default: true
+    workspace:
+      host: https://dbc-84cd5511-fa25.cloud.databricks.com
+
+    variables:
+      sql_warehouse_id: 666be37e3fededf2
+      # O identificador do Genie Space é resolvido dinamicamente no deploy da aplicação:
+      # workspace. O scripts/subir-tudo.sh descobre pelo título e grava aqui.
+      genie_space_id: 01f1cb513eb91dd58208123de3d84ad4
+      genie_space_name: Farol · Diretoria
+      postgres_branch: projects/farol-torre/branches/production
+      postgres_database: projects/farol-torre/branches/production/databases/databricks-postgres

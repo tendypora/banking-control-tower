@@ -1,0 +1,26 @@
+# Databricks Asset Bundles & Secrets
+.databricks/
+variable-overrides.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Generated Datasets (reproducible via data_generator/gerar_dataset.py)
+dados/
+dados_ci/
+
+# Node.js / Databricks App
+node_modules/
+dist/
+.env
+.env.local
+
+# OS & IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
